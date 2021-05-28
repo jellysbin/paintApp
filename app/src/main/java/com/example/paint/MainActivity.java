@@ -258,24 +258,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 View Myview = mg.getView();
                 Myview.setDrawingCacheEnabled(true);
                 Bitmap screenshot = Myview.getDrawingCache(); //스샷 형태로 저장
-                File file = new File(Environment.getExternalStorageDirectory()+"/Pictures", "scr.png");
-                FileOutputStream fos = null;
+                String mPath = Environment.getExternalStorageDirectory().toString() + "/" + "src.png";
+                File imgfile = new File(mPath);
                 try {
-                    fos = new FileOutputStream(file);
+                    FileOutputStream fos = new FileOutputStream(imgfile);
                     screenshot.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos.flush();
                     fos.close();
                     Toast.makeText(MainActivity.this.getApplicationContext(), "저장완료", Toast.LENGTH_LONG).show();
-                } catch (FileNotFoundException e) {
+                } catch (Throwable  e) {
                     e.printStackTrace();
                     Toast.makeText(MainActivity.this.getApplicationContext(), "파일없음 오류", Toast.LENGTH_LONG).show();
-                } catch (IOException e){
-                    e.printStackTrace();
-                    Toast.makeText(MainActivity.this.getApplicationContext(), "io오류", Toast.LENGTH_LONG).show();
                 }
                 Myview.setDrawingCacheEnabled(false);
                 return true;
             case R.id.load:
-                Bitmap picture = BitmapFactory.decodeFile("/sdcard/Pictures/scr.png");
+                String loadPath = Environment.getExternalStorageDirectory().toString() + "/" + "src.png";
+                Bitmap picture = BitmapFactory.decodeFile(loadPath);
                 mg.addImage(picture);
                 return true;
         }
